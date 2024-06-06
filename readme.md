@@ -1,5 +1,7 @@
 # bakerydemo GOLD benchmark
 
+This repository contains the project set up for the Djangocon EU workshop [Greening Digital With Django](https://pretalx.evolutio.pt/djangocon-europe-2024/talk/QP39VQ/).
+
 Reference Wagtail site implementation for energy usage benchmarking.
 
 ## Project setup
