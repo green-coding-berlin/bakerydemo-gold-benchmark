@@ -2,7 +2,7 @@
 
 This repository contains the project set up for the Djangocon EU workshop [Greening Digital - how to set up your django app with green coding metrics in CI](https://pretalx.evolutio.pt/djangocon-europe-2024/talk/ZP9RWD/).
 
-This is modified version of [the original work by Green Coding Solutions Berlin] to adapt the Django Wagtail Bakery for running in their open source energy measurement tooling software [Green Metric Tool](https://docs.green-coding.io/), to allow for developers to develop along the GOLD development principles - Green, Open, Lean, Distributed.
+This is modified version of [the original work by Green Coding Solutions Berlin](https://github.com/green-coding-solutions/bakerydemo-gold-benchmark) to adapt the Django Wagtail Bakery for running in their open source energy measurement tooling software [Green Metric Tool](https://docs.green-coding.io/), to allow for developers to develop along the GOLD development principles - Green, Open, Lean, Distributed.
 
 
 
@@ -81,22 +81,21 @@ npm install
 node homepage-landing.js
 ```
 
+### Submitting to the hosted Green Metrics service for your own figures
+
+You can [manually submit your project to be tested via on the public Green Metrics Tool Cluster](https://metrics.green-coding.io/request.html).
+
+You can also trigger one-off code runs, with the provided python script in ./benchmark/register-for-run-with-gmt-measurement-cluster.py`
+
+```python
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install requests
+
+# edit the file to point to the correct repo and where to send notifications for results
+python benchmark/register-for-run-with-gmt-measurement-cluster.py
+```
 
 
-## OpenEnergyBadge
 
-These badges show the cost of running certain scenarios in this repository:
-
-#### All Routes
-<a href="https://metrics.green-coding.berlin/stats.html?id=37e0ca9c-b38e-4833-8316-59802d8ef1da"><img src="https://api.green-coding.berlin/v1/badge/single/37e0ca9c-b38e-4833-8316-59802d8ef1da?metric=RAPL"></a>
-
-
-#### Migrations
-<a href="https://metrics.green-coding.berlin/stats.html?id=dfb58eb7-7100-4ec6-80ee-7653e1329190"><img src="https://api.green-coding.berlin/v1/badge/single/dfb58eb7-7100-4ec6-80ee-7653e1329190?metric=RAPL"></a>
-
-#### Cache Warmups
-<a href="https://metrics.green-coding.berlin/stats.html?id=2821c396-98f0-4210-8aad-a9fc5a37f01e"><img src="https://api.green-coding.berlin/v1/badge/single/2821c396-98f0-4210-8aad-a9fc5a37f01e?metric=RAPL"></a>
-
-#### Admin route only
-<a href="https://metrics.green-coding.berlin/stats.html?id=ac6b2e5e-7b02-4002-a864-2a5b9e5bc3de"><img src="https://api.green-coding.berlin/v1/badge/single/ac6b2e5e-7b02-4002-a864-2a5b9e5bc3de?metric=RAPL"></a>
 
