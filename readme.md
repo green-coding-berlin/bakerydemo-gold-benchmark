@@ -77,79 +77,7 @@ npm install
 node homepage-landing.js
 ```
 
-### Playwright scenarios for Greenframe
 
-See [Playwright – Migrating from Puppeteer](https://playwright.dev/docs/puppeteer) for differences between the two APIs. Those are the same scenarios, but written with Playwright for compatibility with [Greenframe](https://github.com/marmelab/greenframe-cli). First install Greenframe, then use the following test commands:
-
-```bash
-greenframe analyze http://localhost:8005/ homepage-landing.js --containers="bakerydemo-gold-benchmark-app-1" --databaseContainers="bakerydemo-gold-benchmark-db-1,bakerydemo-gold-benchmark-redis-1"
-greenframe analyze http://localhost:8005/ search.js --containers="bakerydemo-gold-benchmark-app-1" --databaseContainers="bakerydemo-gold-benchmark-db-1,bakerydemo-gold-benchmark-redis-1"
-greenframe analyze http://localhost:8005/ blog-filtering.js  --containers="bakerydemo-gold-benchmark-app-1" --databaseContainers="bakerydemo-gold-benchmark-db-1,bakerydemo-gold-benchmark-redis-1"
-greenframe analyze http://localhost:8005/ contact-us.js --containers="bakerydemo-gold-benchmark-app-1" --databaseContainers="bakerydemo-gold-benchmark-db-1,bakerydemo-gold-benchmark-redis-1"
-greenframe analyze http://localhost:8005/ admin.js --containers="bakerydemo-gold-benchmark-app-1" --databaseContainers="bakerydemo-gold-benchmark-db-1,bakerydemo-gold-benchmark-redis-1"0.
-```
-
-Or run all scenarios at once, based on the configuration in `.greenframe.yml`:
-
-```bash
-greenframe analyze
-```
-
-Here is what the result from a successful run looks like:
-
-```txt
-[…]
-✅ homepage-landing completed
-The estimated footprint is 0.093 g eq. co2 ± 6.1% (0.21 Wh).
-
-✅ search completed
-The estimated footprint is 0.041 g eq. co2 ± 4.9% (0.092 Wh).
-
-✅ blog-filtering completed
-The estimated footprint is 0.063 g eq. co2 ± 1.8% (0.142 Wh).
-
-✅ contact-us completed
-The estimated footprint is 0.035 g eq. co2 ± 6% (0.078 Wh).
-
-✅ admin completed
-The estimated footprint is 0.155 g eq. co2 ± 8.8% (0.352 Wh).
-```
-
-## Static site setup
-
-It’s interesting to compare the performance of Django and Wagtail to that of pre-generated HTML files. First, generate the site:
-
-```bash
-wget --mirror http://localhost:8005/
-mv localhost:8000 static-bakerydemo
-mv static-bakerydemo/static/wagtailfontawesome/fonts/fontawesome-webfont.woff2\?v=4.7.0 static-bakerydemo/static/wagtailfontawesome/fonts/fontawesome-webfont.woff2
-mv bakerydemo/static/img/bread-favicon.ico static-bakerydemo/favicon.ico
-```
-
-Then, serve it with nginx:
-
-```bash
-docker compose up static_app
-```
-
-From there, the static site can be accessed at <http://localhost:8001/>.
-
-The Greenframe test suite can run over this site as well with:
-
-```bash
-greenframe analyze --configFile .greenframe.static.yml
-```
-
-Sample results:
-
-```txt
-[…]
-✅ homepage-landing completed
-The estimated footprint is 0.038 g eq. co2 ± 3.2% (0.085 Wh).
-
-✅ blog-filtering completed
-The estimated footprint is 0.038 g eq. co2 ± 15.3% (0.085 Wh).
-```
 
 ## OpenEnergyBadge
 
