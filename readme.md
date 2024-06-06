@@ -1,8 +1,10 @@
-# bakerydemo GOLD benchmark
+# Bakerydemo GOLD benchmarking for Djangocon EU 2024
 
-This repository contains the project set up for the Djangocon EU workshop [Greening Digital With Django](https://pretalx.evolutio.pt/djangocon-europe-2024/talk/QP39VQ/).
+This repository contains the project set up for the Djangocon EU workshop [Greening Digital - how to set up your django app with green coding metrics in CI](https://pretalx.evolutio.pt/djangocon-europe-2024/talk/ZP9RWD/).
 
-Reference Wagtail site implementation for energy usage benchmarking.
+This is modified version of [the original work by Green Coding Solutions Berlin] to adapt the Django Wagtail Bakery for running in their open source energy measurement tooling software [Green Metric Tool](https://docs.green-coding.io/), to allow for developers to develop along the GOLD development principles - Green, Open, Lean, Distributed.
+
+
 
 ## Project setup
 
