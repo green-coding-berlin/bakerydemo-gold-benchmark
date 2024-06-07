@@ -77,8 +77,10 @@ Puppeteer test scripts are in `benchmark/puppeteer`. To run those scenarios (req
 ```bash
 cd benchmark/puppeteer
 npm install
-# Then run each scenario with `node`:
-node homepage-landing.js
+# Then run each scenario with `node`.
+# LIVE_DEMO=1 will make sure the browser is driven so you can see interactions on the page
+# USAGE_SCENARIO_DOMAIN defines where to send the browser to connect to
+LIVE_DEMO=1 USAGE_SCENARIO_DOMAIN=http://localhost:8005 node ./contact-us.js
 ```
 
 ### Submitting to the hosted Green Metrics service for your own figures
