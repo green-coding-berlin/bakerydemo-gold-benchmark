@@ -1,6 +1,10 @@
-# bakerydemo GOLD benchmark
+# Bakerydemo GOLD benchmarking for Djangocon EU 2024
 
-Reference Wagtail site implementation for energy usage benchmarking.
+This repository contains the project set up for the Djangocon EU workshop [Greening Digital - how to set up your django app with green coding metrics in CI](https://pretalx.evolutio.pt/djangocon-europe-2024/talk/ZP9RWD/).
+
+This is modified version of [the original work by Green Coding Solutions Berlin](https://github.com/green-coding-solutions/bakerydemo-gold-benchmark) to adapt the Django Wagtail Bakery for running in their open source energy measurement tooling software [Green Metric Tool](https://docs.green-coding.io/), to allow for developers to develop along the GOLD development principles - Green, Open, Lean, Distributed.
+
+
 
 ## Project setup
 
@@ -73,98 +77,27 @@ Puppeteer test scripts are in `benchmark/puppeteer`. To run those scenarios (req
 ```bash
 cd benchmark/puppeteer
 npm install
-# Then run each scenario with `node`:
-node homepage-landing.js
+# Then run each scenario with `node`.
+# LIVE_DEMO=1 will make sure the browser is driven so you can see interactions on the page
+# USAGE_SCENARIO_DOMAIN defines where to send the browser to connect to
+LIVE_DEMO=1 USAGE_SCENARIO_DOMAIN=http://localhost:8005 node ./contact-us.js
 ```
 
-### Playwright scenarios for Greenframe
+### Submitting to the hosted Green Metrics service for your own figures
 
-See [Playwright – Migrating from Puppeteer](https://playwright.dev/docs/puppeteer) for differences between the two APIs. Those are the same scenarios, but written with Playwright for compatibility with [Greenframe](https://github.com/marmelab/greenframe-cli). First install Greenframe, then use the following test commands:
+You can [manually submit your project to be tested via on the public Green Metrics Tool Cluster](https://metrics.green-coding.io/request.html).
 
-```bash
-greenframe analyze http://localhost:8005/ homepage-landing.js --containers="bakerydemo-gold-benchmark-app-1" --databaseContainers="bakerydemo-gold-benchmark-db-1,bakerydemo-gold-benchmark-redis-1"
-greenframe analyze http://localhost:8005/ search.js --containers="bakerydemo-gold-benchmark-app-1" --databaseContainers="bakerydemo-gold-benchmark-db-1,bakerydemo-gold-benchmark-redis-1"
-greenframe analyze http://localhost:8005/ blog-filtering.js  --containers="bakerydemo-gold-benchmark-app-1" --databaseContainers="bakerydemo-gold-benchmark-db-1,bakerydemo-gold-benchmark-redis-1"
-greenframe analyze http://localhost:8005/ contact-us.js --containers="bakerydemo-gold-benchmark-app-1" --databaseContainers="bakerydemo-gold-benchmark-db-1,bakerydemo-gold-benchmark-redis-1"
-greenframe analyze http://localhost:8005/ admin.js --containers="bakerydemo-gold-benchmark-app-1" --databaseContainers="bakerydemo-gold-benchmark-db-1,bakerydemo-gold-benchmark-redis-1"0.
+You can also trigger one-off code runs, with the provided python script in ./benchmark/register-for-run-with-gmt-measurement-cluster.py`
+
+```python
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install requests
+
+# edit the file to point to the correct repo and where to send notifications for results
+python benchmark/register-for-run-with-gmt-measurement-cluster.py
 ```
 
-Or run all scenarios at once, based on the configuration in `.greenframe.yml`:
-
-```bash
-greenframe analyze
-```
-
-Here is what the result from a successful run looks like:
-
-```txt
-[…]
-✅ homepage-landing completed
-The estimated footprint is 0.093 g eq. co2 ± 6.1% (0.21 Wh).
-
-✅ search completed
-The estimated footprint is 0.041 g eq. co2 ± 4.9% (0.092 Wh).
-
-✅ blog-filtering completed
-The estimated footprint is 0.063 g eq. co2 ± 1.8% (0.142 Wh).
-
-✅ contact-us completed
-The estimated footprint is 0.035 g eq. co2 ± 6% (0.078 Wh).
-
-✅ admin completed
-The estimated footprint is 0.155 g eq. co2 ± 8.8% (0.352 Wh).
-```
-
-## Static site setup
-
-It’s interesting to compare the performance of Django and Wagtail to that of pre-generated HTML files. First, generate the site:
-
-```bash
-wget --mirror http://localhost:8005/
-mv localhost:8000 static-bakerydemo
-mv static-bakerydemo/static/wagtailfontawesome/fonts/fontawesome-webfont.woff2\?v=4.7.0 static-bakerydemo/static/wagtailfontawesome/fonts/fontawesome-webfont.woff2
-mv bakerydemo/static/img/bread-favicon.ico static-bakerydemo/favicon.ico
-```
-
-Then, serve it with nginx:
-
-```bash
-docker compose up static_app
-```
-
-From there, the static site can be accessed at <http://localhost:8001/>.
-
-The Greenframe test suite can run over this site as well with:
-
-```bash
-greenframe analyze --configFile .greenframe.static.yml
-```
-
-Sample results:
-
-```txt
-[…]
-✅ homepage-landing completed
-The estimated footprint is 0.038 g eq. co2 ± 3.2% (0.085 Wh).
-
-✅ blog-filtering completed
-The estimated footprint is 0.038 g eq. co2 ± 15.3% (0.085 Wh).
-```
-
-## OpenEnergyBadge
-
-These badges show the cost of running certain scenarios in this repository:
-
-#### All Routes
-<a href="https://metrics.green-coding.berlin/stats.html?id=37e0ca9c-b38e-4833-8316-59802d8ef1da"><img src="https://api.green-coding.berlin/v1/badge/single/37e0ca9c-b38e-4833-8316-59802d8ef1da?metric=RAPL"></a>
 
 
-#### Migrations
-<a href="https://metrics.green-coding.berlin/stats.html?id=dfb58eb7-7100-4ec6-80ee-7653e1329190"><img src="https://api.green-coding.berlin/v1/badge/single/dfb58eb7-7100-4ec6-80ee-7653e1329190?metric=RAPL"></a>
-
-#### Cache Warmups
-<a href="https://metrics.green-coding.berlin/stats.html?id=2821c396-98f0-4210-8aad-a9fc5a37f01e"><img src="https://api.green-coding.berlin/v1/badge/single/2821c396-98f0-4210-8aad-a9fc5a37f01e?metric=RAPL"></a>
-
-#### Admin route only
-<a href="https://metrics.green-coding.berlin/stats.html?id=ac6b2e5e-7b02-4002-a864-2a5b9e5bc3de"><img src="https://api.green-coding.berlin/v1/badge/single/ac6b2e5e-7b02-4002-a864-2a5b9e5bc3de?metric=RAPL"></a>
 
